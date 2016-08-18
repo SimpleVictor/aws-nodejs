@@ -10,6 +10,8 @@ import {Http, Headers, RequestOptions, Request} from "@angular/http";
 })
 export class SignupComponent implements OnInit {
     signUpUrl: string = "http://localhost:3000/user-api/signup";
+    passwordMatch: boolean = false;
+    loadingData:boolean = false;
 
     model = {
         name: undefined,
@@ -22,11 +24,21 @@ export class SignupComponent implements OnInit {
     ngOnInit() { }
 
     onSubmit(formData){
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        var results = this.http.post(this.signUpUrl, JSON.stringify(this.model), options).map(req => {
-           return req.json();
-        }).subscribe(err => {console.log(err)}, data => {console.log(data)});
+        this.loadingData = true;
+        if(this.model.password === this.model.confirm_password){
+            let headers = new Headers({'Content-Type': 'application/json'});
+            let options = new RequestOptions({headers: headers});
+            var results = this.http.post(this.signUpUrl, JSON.stringify(this.model), options).map(res => {
+                res.json();
+            }).subscribe(err => {console.log(err)}, data => {
+                window.location.href='http://localhost:3000/#/home';
+                return this.loadingData = false;
+            });
+        }else{
+            this.passwordMatch = true;
+            this.loadingData = false;
+            console.log("Please match the password please");
+        };
     }
 
 }

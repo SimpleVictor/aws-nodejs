@@ -12,6 +12,7 @@ let AWS= require('./config/aws.config');
 //ROUTES
 import { awsrouter } from "./routes/protected";
 import { UserRoute } from "./routes/user";
+import { loginRoute } from "./routes/login";
 
 //EXPRESS CONFIGS
 const app: express.Application = express();
@@ -25,6 +26,7 @@ app.use(morgan('dev'));
 // ROUTES
 app.use("/aws-api", awsrouter);
 app.use("/user-api", UserRoute);
+app.use("/login", loginRoute);
 
 
 

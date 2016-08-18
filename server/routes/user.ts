@@ -13,44 +13,16 @@ UserRoute.use((request: Request & {headers: {auth: string}} , response: Response
         dynamodb.createTable({
             TableName: 'Users',
             AttributeDefinitions: [
-                //USERS ID
                 {
                     AttributeName: 'id',
                     AttributeType: 'S'
-                },
-                //USERNAME
-                {
-                    AttributeName: 'username',
-                    AttributeType: 'S'
                 }
-                // //PASSWORD
-                // {
-                //     AttributeName: 'password',
-                //     AttributeType: 'S'
-                // },
-                // //FULL NAME
-                // {
-                //     AttributeName: 'full_name',
-                //     AttributeType: 'S'
-                // }
             ],
             KeySchema: [
                 {
                     AttributeName: 'id',
                     KeyType: 'HASH'
-                },
-                {
-                    AttributeName: 'username',
-                    KeyType: 'RANGE'
                 }
-                // {
-                //     AttributeName: 'password',
-                //     KeyType: 'RANGE'
-                // },
-                // {
-                //     AttributeName: 'full_name',
-                //     KeyType: 'RANGE'
-                // }
             ],
             ProvisionedThroughput: {
                 ReadCapacityUnits: 5,
@@ -76,7 +48,7 @@ UserRoute.post("/signup", (request: Request, response: Response) => {
     let params = {
         Item: {
             "id":{
-                S: '321564789'
+                S: Math.floor(Math.random() * 2389047238904).toString()
             },
             "username": {
                 S: request.body.name
@@ -91,13 +63,14 @@ UserRoute.post("/signup", (request: Request, response: Response) => {
         TableName: 'Users'
     }
 
-    dynamodb.putItem(params, function(err, data){
+    dynamodb.putItem(params, (err, data) =>{
         if(err) {
             console.log(err);
             response.json("Data FAILED!");
         } else {
             console.log(data);
-            response.json("Data has been added!!");
+            console.log(clc.greenBright('Redirecting to home now...'));
+            response.end();
         };
     });
 
