@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
                         }else{
                             console.log("Login success!");
                             this.credentials = false;
+                            window.location.href='http://localhost:3000/#/users';
                         };
                         return;
                     }
