@@ -47,9 +47,11 @@ UserRoute.post("/signup", (request: Request, response: Response) => {
 
     let params = {
         Item: {
-            "id":{
+            //MAIN primary key
+            "User-ID":{
                 S: Math.floor(Math.random() * 2389047238904).toString()
             },
+            //This is the primary key made from the Secondary Index!
             "username": {
                 S: request.body.name
             },

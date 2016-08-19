@@ -4,10 +4,17 @@ import { join } from "path";
 import * as favicon from "serve-favicon";
 import { json, urlencoded } from "body-parser";
 
-let morgan = require('morgan');
 //CONFIGS
-let env = require('./config/env.config');
-let AWS= require('./config/aws.config');
+import * as env from "./config/env.config";
+import * as AWS from "./config/aws.config";
+
+
+//Initialize the configs
+env, AWS;
+
+//Importing moduls without the typings number
+let morgan = require('morgan');
+
 
 //ROUTES
 import { awsrouter } from "./routes/protected";
@@ -16,12 +23,15 @@ import { loginRoute } from "./routes/login";
 
 //EXPRESS CONFIGS
 const app: express.Application = express();
+
+
 app.disable("x-powered-by");
 app.use(favicon(join(__dirname, "../public", "favicon.ico")));
 app.use(express.static(join(__dirname, '../public')));
 app.use(json());
 app.use(urlencoded({ extended: true }));
 app.use(morgan('dev'));
+
 
 // ROUTES
 app.use("/aws-api", awsrouter);

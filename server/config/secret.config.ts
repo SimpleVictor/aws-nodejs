@@ -1,1 +1,1 @@
-export const secret:string = "bruhbruh162";
+export const secret:string = "secretkeyformyjwt";
